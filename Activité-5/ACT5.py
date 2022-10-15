@@ -58,7 +58,6 @@ assert normalise([]) == []
 def produit(p1: Polyn, p2: Polyn) -> Polyn:
     """Retourne le produit des polynômes p1 et p2"""
     i: int
-    j: int
     k: int
     l: int
     m: int
