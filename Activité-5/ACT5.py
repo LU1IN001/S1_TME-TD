@@ -93,4 +93,3 @@ assert normalise(produit(ex1, ex2)) == [3, -3, 5, -5, 2, -2]
 assert normalise(produit(ex1, ex3)) == [27* 3, 0, 27* 2]
 assert normalise(produit([1, 1], [1, 0, 1])) == [1, 1, 1, 1]
 
-print("Hello World !")
