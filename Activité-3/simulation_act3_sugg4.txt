@@ -1,0 +1,19 @@
+début de la boucle, s = 0
+début de la boucle, i = 1
+==========================
+fin du tour1 s = 1
+fin du tour1 i =2
+==========================
+fin du tour2 s = 3
+fin du tour2 i =3
+==========================
+fin du tour3 s = 6
+fin du tour3 i =4
+==========================
+fin du tour4 s = 6
+fin du tour4 i =5
+==========================
+fin du tour5 s = 6
+fin du tour5 i =6
+==========================
+sortie de boucle, s = 6 n = 6
