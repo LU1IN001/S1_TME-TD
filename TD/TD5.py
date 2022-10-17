@@ -102,5 +102,17 @@ def ecart_type(l: List[float]) -> float:
 
 # Exercice 4.4
 
+def somme_cubes(n: int) -> int:
+    """Préconditions n >= 0
+    Retourne la somme des cubes jusqu'à n"""
+    s: int = 0
+    k: int = 1
+    while k <= n:
+        s = s + k **3
+        k = k + 1
+    return s
+
+# Invariant: s = (k-1)S(i=1)(i**3)
+# Variant: n - k
 
 
