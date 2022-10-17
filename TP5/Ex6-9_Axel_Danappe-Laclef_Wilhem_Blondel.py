@@ -1,3 +1,4 @@
+from typing import List
 def jonction(l: List[str], c: str) -> str:
     """Précondition : len(c) = 1
     Retourne la chaîne composée de la jonction des
