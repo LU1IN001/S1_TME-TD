@@ -58,6 +58,7 @@ assert normalise([]) == []
 def produit(p1: Polyn, p2: Polyn) -> Polyn:
     """Retourne le produit des polynômes p1 et p2"""
     i: int
+    j: int
     k: int
     l: int
     m: int
@@ -91,4 +92,87 @@ assert normalise(produit(ex1, ex1)) == [9, 0, 12, 0, 4]
 assert normalise(produit(ex1, ex2)) == [3, -3, 5, -5, 2, -2]
 assert normalise(produit(ex1, ex3)) == [27* 3, 0, 27* 2]
 assert normalise(produit([1, 1], [1, 0, 1])) == [1, 1, 1, 1]
+
+# Suggestion 2
+
+def multiplication_polynome(p1: Polyn, coef: int) -> Polyn:
+    """Retourne le polynôme multiplié par l'entier donné"""
+    pres: Polyn = p1[:]
+    i: int
+    for i in range(len(pres)):
+        pres[i] = pres[i]*coef
+    return pres
+
+assert normalise(multiplication_polynome(ex1, 2)) == [6, 0, 4]
+assert normalise(multiplication_polynome(ex4, 10)) == []
+assert normalise(multiplication_polynome(ex3, -1)) == [-27]
+
+
+def puissance_polyn(p1: Polyn, power: int) -> Polyn:
+    """Préconditions: power >= 0
+    Retourne le polynôme élevé à la puissance donnée"""
+    if(power == 0):
+        return [1]
+    pres: Polyn = p1[:]
+    i: int
+    for i in range(1, power):
+        pres = normalise(produit(pres, p1))
+    return pres
+
+assert normalise(puissance_polyn(ex1, 2)) == normalise(produit(ex1, ex1))
+assert normalise(puissance_polyn(ex4, 0)) == [1]
+assert normalise(puissance_polyn(ex4, 6)) == []
+assert normalise(puissance_polyn(ex3, 5)) == [27**5]
+
+def derivee(p1: Polyn) -> Polyn:
+    """Retourne la dérivation du polynôme"""
+    pres: Polyn = []
+    x_power = 1
+    i: int
+    for i in p1[1:]:
+        pres.append(x_power*i)
+        x_power = x_power + 1
+    return pres
+
+assert normalise(derivee(ex1)) == [0, 4]
+assert normalise(derivee(ex4)) == []
+assert normalise(derivee(ex2)) == [-1, 2, -3]
+
+def primitive(p1: Polyn, k: int = 0) -> Polyn:
+    """Préconditions, les coefficients doivent se diviser avec les puissances supérieures
+    Retourne la primitive du polynôme donné avec une constante au choix k
+    Par défaut k = 0"""
+    pres: Polyn = [k]
+    x_power = 1
+    i: int
+    for i in p1:
+        pres.append(i//x_power)
+        x_power = x_power + 1
+    return pres
+
+assert normalise(primitive(derivee(ex1), 3)) == normalise(ex1)
+assert normalise(primitive(derivee(ex2), 1)) == normalise(ex2)
+assert normalise(primitive(derivee(ex3), 27)) == normalise(ex3)
+assert normalise(primitive(derivee(ex4), 12)) ==  [12]
+
+def remplace_x(p1: Polyn, x: float) -> float:
+    """Retourne le résultat du polynôme de x"""
+    i: int
+    res: float = 0.0
+    for i in range(len(p1)):
+        res = res + p1[i]*x**i
+    return res
+
+assert remplace_x(ex1, 1) == 5.0
+assert remplace_x(ex2, 1) == 0.0
+assert remplace_x(ex3, 0) == 27.0
+assert remplace_x(ex3, 500) == 27.0
+assert remplace_x(ex4, 80000) == 0.0
+
+
+def integration(p1: Polyn, a: float, b: float) -> float:
+    """Retoune l'intégration de p1 de a à b"""
+    primitive_p: Polyn = primitive(p1)
+    return remplace_x(primitive_p, b) - remplace_x(primitive_p, a)
+
 
