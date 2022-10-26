@@ -251,12 +251,113 @@ def courbe_dragon(A: Point, B: Point, n: int) -> Courbe:
             if(j%2 == 0):
                 c.append(deplace_diag_rad(P1, angle + math.pi/4, math.sqrt(1/2*taille**2)))
             else:
-                c.append(deplace_diag_rad(P1, angle - math.pi/4, (math.sqrt(1/2*taille**2))))
+                c.append(deplace_diag_rad(P1, angle - math.pi/4, math.sqrt(1/2*taille**2)))
         c.append(c_prev[-1])
     return c
 
-# show_image(overlay(image_courbe(courbe_dragon((-0.5, 0), (0.5, 0), 2)), (image_courbe(courbe_dragon((-0.5, 0), (0.5, 0), 1)))))
-
 # show_image(image_courbe(courbe_dragon((-0.5, 0), (0.5, 0), 14)))
-            
 
+# Suggestion 4
+
+Triangle = List[Point]
+
+def triangle_rayon_d(p: Point, d: float) -> Triangle:
+    """Renvoie le triangle de rayon d"""
+    # Traçage des points du triangle donné
+
+    S: Point = deplace(p, "H", d) # Sommet
+    A: Point = deplace_diag(p, 210, d) # Point inférieur gauche
+    B: Point = deplace_diag(p, -30, d) # Point inférieur droit
+
+    return [A, S, B]
+
+def milieu_segment(A: Point, B: Point) -> Point:
+    """Renvoie le point milieu du segment [AB]"""
+    xA, yA = A
+    xB, yB = B
+    return ((xA+xB)/2, (yA+yB)/2)
+
+def section_sierpinski(t: Triangle) -> List[Triangle]:
+    """Préconditions, t est équilatéral
+    Retourne une liste de triangle tel que le triangle donné soit découpé à la manière du fractale de Sierpinski"""
+
+    A: Point = t[0]
+    B: Point = t[1]
+    C: Point = t[2]
+
+    D: Point = milieu_segment(A, B)
+    E: Point = milieu_segment(B, C)
+    F: Point = milieu_segment(C, A)
+
+    return [[A, D, F], [D, B, E], [E, C, F]]
+
+def triangles_remplis(t_list: List[Triangle]) -> Image:
+    res: Image = draw_line(2, 2, 2, 2)
+    t: Triangle
+    for t in t_list:
+        xA, yA = t[0]
+        xB, yB = t[1]
+        xC, yC = t[2]
+        res = overlay(res, fill_triangle(xA, yA, xB, yB, xC, yC))
+    return res
+
+def triangle_sierpinski(p: Point, d: float, n: int) -> List[Triangle]:
+    """Dessine le fractale du triangle de sierpinski"""
+    t_list: List[Triangle] = [triangle_rayon_d(p, d)]
+    t_next: List[Triangle] = []
+    i: int
+    for i in range(n):
+        for t in t_list:
+            append_list(t_next, section_sierpinski(t))
+        t_list = t_next
+        t_next = []
+
+    return t_list
+
+# show_image(triangles_remplis(triangle_sierpinski(O, 0.8, 6)))
+
+# Suggestion 5
+
+Complexe = Tuple[float, float]
+
+def Re(z: Complexe) -> float:
+    a, _ = z
+    return a
+
+def Im(z: Complexe) -> float:
+    _, b = z
+    return b
+
+def addition_complexe(z1: Complexe, z2: Complexe) -> Complexe:
+    return (Re(z1) + Re(z2), Im(z1) + Im(z2))
+
+def carre_complexe(z: Complexe) -> Complexe:
+    return (Re(z)**2 - Im(z)**2, 2*Re(z)*Im(z))
+
+def module_z(z: Complexe) -> float:
+    return math.sqrt(Re(z)**2 + Im(z)**2)
+
+def ensemble_mandelbrot(z: Complexe, A: Point) -> Complexe:
+    """Applique l'ensemble de mandelbrot à z à partir d'un point A"""
+    # Re = xA et Im = yA
+    return addition_complexe(carre_complexe(z), A)
+
+def construction_pixel(A: Point, g: int) -> Image:
+    """Retourne le pixel du point A tel qu'un carré de côté 2/g
+    A est le coin inférieur gauche"""
+    xA, yA = A
+    xB, yB = xA, yA+2/g
+    xC, yC = xA+2/g, yA+2/g
+    xD, yD = xA+2/g, yA
+    return overlay(fill_triangle(xA, yA, xB, yB, xC, yC), fill_triangle(xA, yA, xD, yD, xC, yC))
+    
+    
+def construction_base(g: int) -> Courbe:
+    """Répartie uniformément n^2 points sur le repère graphique"""
+    res: Courbe = []
+    x: int
+    y: int
+    for y in range(-g//2, g//2):
+        for x in range(-g//2, g//2):
+            res.append((x/(g//2), y/(g//2)))
+    return res
