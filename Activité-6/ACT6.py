@@ -346,16 +346,6 @@ def construction_pixel(A: Point, g: int) -> Image:
     xD, yD = xA+2/g, yA
     return overlay(fill_triangle(xA, yA, xB, yB, xC, yC), fill_triangle(xA, yA, xD, yD, xC, yC))
 
-def ensemble_mandelbrot(A: Point, g: int, n: int) -> Image:
-    """Renvoie un pixel si le point est dans le set"""
-    # Re = xA et Im = yA
-    z: Complexe = (0, 0)
-    for i in range(n):
-        z = addition_complexe(carre_complexe(z), A)
-        if module_z(z) > 2:
-           return draw_line(2, 2, 2, 2)
-    return construction_pixel(A, g)
-    
     
 def construction_base(g: int) -> Courbe:
     """Répartie uniformément n^2 points sur le repère graphique"""
@@ -371,9 +361,25 @@ def mandelbrot(g: int, n: int) -> Image:
     
     base: Courbe = construction_base(g)
     res: Image = draw_line(2, 2, 2, 2)
+    z: Complexe
+    in_set: bool = True
+    i: int
+    j: int = 0
     for i in range(len(base)):
-        res = overlay(res, ensemble_mandelbrot(base[i], g, n))
+        z = (0, 0)
+        while j < n and in_set:
+            z = addition_complexe(carre_complexe(z), base[i])
+            if module_z(z) > 2:
+                in_set = False
+            j = j + 1
+        
+        if in_set:
+            res = overlay(res, construction_pixel(base[i], g))
+        
+        in_set = True
+        j = 0
+            
     return res  
 
-# show_image(mandelbrot(400, 1000))
+show_image(mandelbrot(400, 1000))
 
