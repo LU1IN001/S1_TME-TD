@@ -354,7 +354,7 @@ def ensemble_mandelbrot(A: Point, g: int, n: int) -> Image:
         z = addition_complexe(carre_complexe(z), A)
         if module_z(z) > 2:
            return draw_line(2, 2, 2, 2)
-    return construction_pixel(z, g)
+    return construction_pixel(A, g)
     
     
 def construction_base(g: int) -> Courbe:
@@ -368,10 +368,12 @@ def construction_base(g: int) -> Courbe:
     return res
 
 def mandelbrot(g: int, n: int) -> Image:
+    
     base: Courbe = construction_base(g)
     res: Image = draw_line(2, 2, 2, 2)
     for i in range(len(base)):
         res = overlay(res, ensemble_mandelbrot(base[i], g, n))
     return res  
 
-show_image(mandelbrot(200, 100))
+# show_image(mandelbrot(400, 1000))
+
