@@ -74,7 +74,7 @@ assert chemin_possible(laby1 , (0, 1), ["S", "E", "N"])
 assert chemin_possible(laby1 , (0, 1), ["S", "N", "S", "E", "N"])
 assert not chemin_possible(laby1 , (0, 1), ["S", "O"])
 assert not chemin_possible(laby1 , (0, 1), ["S", "E", "N", "O"])
-        
+
 
 def est_solution(la: Laby, c: Coord, ch: List[Dir]) -> bool:
     """Préconditions, c est dans le labyrinthe
@@ -122,7 +122,7 @@ def random_path(c: Case) -> Dir:
     Renvoie une direction aléatoire possible à prendre dans la case c"""
     n, e, s, o, _ = c
     dir_possible: List[Dir] = []
-    
+
     if n:
         dir_possible.append("N")
     if e:
@@ -142,9 +142,9 @@ def coord_depart(la: Laby, c: Coord) -> Coord:
     # On veut faire une récursivité inverse ici
     # Puisque l'entrée se trouvera plus souvent en début de liste
     x, y = c
-    
+
     _, _, _, _, state = la[x][y]
-    
+
     if state == "ENTREE":
         return c
     else:
@@ -158,7 +158,7 @@ def marche_aleatoire(la: Laby, chemin: List[Dir], c_prev: Optional[Coord]) -> Op
 
     # On préfère ici stocker les éléments des coordonnée pour ne pas vaoir utiliser les fonctions récursives de déplacement
     # Qui prendrait trop de place sur la pile
-    
+
     res_next: List[Dir] = chemin[:]
 
     c: Coord
@@ -168,14 +168,14 @@ def marche_aleatoire(la: Laby, chemin: List[Dir], c_prev: Optional[Coord]) -> Op
                                      # Le mieux est de fournir les coordonnées d'entrer du labyrinthe avant l'exécution première
     else:
         c = c_prev # La valeur n'est jamais None
-    
+
     x, y = c
     if len(chemin) > 950:
         # Surcharge de la pile maîtrisé
         return None
-    
+
     _, _, _, _, state = la[x][y]
-    
+
     if state == "SORTIE":
         # On aurait pu utiliser la fonction est_solution qui vérifie si le chemin est solution
         # Cependant, elle aurait surcharger la pile pour des labyrinthes trop important
@@ -195,7 +195,7 @@ def marche_droite(la: Laby, chemin: List[Dir], c_prev: Optional[Coord]) -> Optio
 
     # On préfère ici stocker les éléments des coordonnée pour ne pas vaoir utiliser les fonctions récursives de déplacement
     # Qui prendrait trop de place sur la pile
-    
+
     res_next: List[Dir] = chemin[:]
 
     c: Coord
@@ -205,14 +205,14 @@ def marche_droite(la: Laby, chemin: List[Dir], c_prev: Optional[Coord]) -> Optio
                                      # Le mieux est de fournir les coordonnées d'entrer du labyrinthe avant l'exécution première
     else:
         c = c_prev # La valeur n'est jamais None
-    
+
     x, y = c
     if len(chemin) > 950:
         # Surcharge de la pile maîtrisé
         return None
-    
+
     _, _, _, _, state = la[x][y]
-    
+
     if state == "SORTIE":
         # On aurait pu utiliser la fonction est_solution qui vérifie si le chemin est solution
         # Cependant, elle aurait surcharger la pile pour des labyrinthes trop important
@@ -255,7 +255,7 @@ def dessine_laby(la: Laby, prev_img: Image, taille_laby_x: int, taille_laby_y: i
         # ori_x et ori_y représente le coin supérieur gauche de la case
 
         n, e, s, o, state = la[0][0]
-        
+
         if n:
             # Construction du mur Nord
             copy_img = overlay(copy_img, draw_line(ori_x, ori_y, ori_x + 2/taille_laby_x, ori_y))
@@ -272,7 +272,7 @@ def dessine_laby(la: Laby, prev_img: Image, taille_laby_x: int, taille_laby_y: i
             # Construction du mur Ouest
             copy_img = overlay(copy_img, draw_line(ori_x, ori_y, ori_x, ori_y - 2/taille_laby_y))
             print("Construction mur Ouest")
-            
+
         if state == "ENTREE":
             # Symbolisation de l'entrée
             copy_img = overlay(copy_img, draw_ellipse(ori_x + 1/4*ori_x, ori_y - 1/4*ori_y, ori_x + 3/4*ori_x, ori_y - 3/4*ori_y))
@@ -288,8 +288,3 @@ def dessine_laby(la: Laby, prev_img: Image, taille_laby_x: int, taille_laby_y: i
         return dessine_laby(la_copy, copy_img, taille_laby_x, taille_laby_y, (x, y+1))
 
 show_image(dessine_laby(laby1, draw_line(0, 0, 0, 0), len(laby1), len(laby1[0]), (0, 0)))
-
-
-                        
-        
-    
