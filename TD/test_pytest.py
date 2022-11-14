@@ -1,5 +1,7 @@
 import TD5 as a
 import TD6 as b
+import TD7 as c
+import TD8 as d
 from typing import List, Tuple
 
 Etudiant = Tuple[str, str, int, List[int]]
@@ -123,3 +125,50 @@ def test_recherche_moyenne():
     assert b.recherche_moyenne(20244229, BaseUPMC) == 11.8
     assert b.recherche_moyenne(20342241, BaseUPMC) == 10.5
     assert b.recherche_moyenne(2024129111, BaseUPMC) == None
+
+def test_fibo():
+    assert c.fibo(3) == 2
+    assert c.fibo(5) == 5
+    assert c.fibo(8) == 21
+    assert c.fibofast(3, 0, 1) == 2
+    assert c.fibofast(5, 0, 1) == 5
+    assert c.fibofast(8, 0, 1) == 21
+    assert c.fibit(3) == 2
+    assert c.fibit(5) == 5
+    assert c.fibit(8) == 21
+
+def test_divination_rec():
+    assert c.divination_rec(c.oracle42, 1, 100, 0) == 7
+    assert c.divination(c.oracle42, -1000, 1000) == 1043
+    assert c.divination_rec(c.oracle42, -1000, 1000, 0) == 9
+
+def test_diff_sym():
+    assert d.diff_sym({2, 5, 9}, {3, 5, 8}) == {2, 3, 8, 9}
+    assert d.diff_sym({2, 5, 9}, {2, 5, 8, 9}) == {8}
+    assert d.diff_sym({'a', 'b', 'c'}, {'d', 'e', 'f'}) == {'a', 'b', 'c', 'd', 'e', 'f'}
+    assert d.diff_sym({'a', 'b', 'c'}, set()) == {'a', 'b', 'c'}
+    assert d.diff_sym(set(), {'d', 'e', 'f'}) == {'d', 'e', 'f'}
+    assert d.diff_sym({'a', 'b', 'c'}, {'a', 'b', 'c'}) == set()
+    assert d.diff_sym_operand({2, 5, 9}, {3, 5, 8}) == {2, 3, 8, 9}
+    assert d.diff_sym_operand({2, 5, 9}, {2, 5, 8, 9}) == {8}
+    assert d.diff_sym_operand({'a', 'b', 'c'}, {'d', 'e', 'f'}) == {'a', 'b', 'c', 'd', 'e', 'f'}
+    assert d.diff_sym_operand({'a', 'b', 'c'}, set()) == {'a', 'b', 'c'}
+    assert d.diff_sym_operand(set(), {'d', 'e', 'f'}) == {'d', 'e', 'f'}
+    assert d.diff_sym_operand({'a', 'b', 'c'}, {'a', 'b', 'c'}) == set()
+
+def test_repetes():
+    assert d.repetes([1, 2, 23, 9, 2, 23, 6, 2, 9]) == {2, 9, 23}
+    assert d.repetes([1, 2, 3, 4]) == set()
+    assert d.repetes(['bonjour', 'ça', 'ça', 'va', '?']) == {'ça'}
+
+def test_frequence_lettres():
+    assert d.frequences_lettres('alea jacta est') == {'a': 4, 'l': 1, 'e': 2, 'j': 1, 'c': 1, 't': 2, 's': 1}
+    assert d.frequences_lettres("l'élève") == {'l': 2, 'é': 1, 'è': 1, 'v': 1, 'e': 1} 
+
+def test_lettre_freq_max():
+    assert d.lettre_freq_max(d.frequences_lettres('alea jacta est')) == 'a'
+    assert d.lettre_freq_max(d.frequences_lettres("l'élève")) == 'l'
+
+def test_lettres_freq_inf():
+    assert d.lettres_freq_inf(d.frequences_lettres('alea jacta est'), 1) == {'c', 'j', 'l', 's'}
+    assert d.lettres_freq_inf(d.frequences_lettres("l'élève"), 2) == {'e', 'l', 'v', 'è', 'é'}
