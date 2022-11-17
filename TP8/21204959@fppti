@@ -1,6 +1,3 @@
-
-from typing import List, Dict
-
 def valeur_decomposition(decomp: Dict[int, int]) -> int:
     """Retourne la valeur du dictionnaire de domposition de facteurs"""
     res: int = 1
@@ -30,9 +27,19 @@ assert decomposition([2, 2, 2, 2, 2, 2, 2, 2, 2, 2]) == {2: 10}
 def liste_nombres_premiers(n: int) -> List[int]:
     """Préconditions n >= 2
     Retourne la liste des nombres premiers jusqu'à n"""
-    return [i for i in range(2, n+1)]
+    res: List[int] = []
+    add: bool = True
+    i: int
+    for i in range(2, n+1):
+        j: int
+        for j in res:
+            if i%j == 0:
+                add = False
+        if add:
+            res.append(i)
+        add = True
+    return res
 
-print(liste_nombres_premiers(10))
 assert liste_nombres_premiers(10) == [2, 3, 5, 7]
 assert liste_nombres_premiers(30) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 assert liste_nombres_premiers(2) == [2]
