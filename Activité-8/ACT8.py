@@ -20,10 +20,11 @@ exemple1 : List[str] = ['"sport";"date";"participants";"vainqueur"\n',
                         '"echecs";2021-09-24;120;"Bob"\n',
                         '"echecs";2021-10-01;120;"Carole"\n']
 
+
 # Partie Guidée
 
 def decompose_ligne(li: str, sep: str) -> List[str]:
-    """Préconditions: len(sep) == 1
+    """Préconditions: len(sep) == 1, li doit contenir un chariot à la fin
     Retourne la liste d'éléments de li séparé par le sep"""
     res: List[str] = []
     c: str
@@ -34,8 +35,7 @@ def decompose_ligne(li: str, sep: str) -> List[str]:
             mot = ""
         else:
             mot = mot + c
-    if len(mot) > 2:
-        res.append(mot[:-1])
+    res.append(mot[:-1])
     return res
 
 assert decompose_ligne(exemple1[0], ";") == ['"sport"', '"date"', '"participants"', '"vainqueur"']
@@ -68,6 +68,7 @@ def lignes_propres(lis: List[str], sep: str) -> List[List[str]]:
     """Préconditions: len(sep) == 1
     Retourne la liste d'éléments de li séparé par le sep
     Dans laquelle on a retiré les guillemens"""
+    # return [enleve_guillemets_ligne(decompose_ligne(li, sep)) for li in lis]
     return [enleve_guillemets_ligne(e) for e in [decompose_ligne(li, sep) for li in lis]]
 
 assert lignes_propres(exemple1, ";") == [['sport', 'date', 'participants', 'vainqueur'], ['boxe', '2021-09-18', '12', 'Alice'], ['boxe', '2021-09-25', '10', 'Alice'], ['karate', '2021-09-26', '19', 'Carole'], ['boxe', '2021-10-02', '8', 'Bob'], ['karate', '2021-10-03', '20', 'Carole'], ['tennis', '2021-10-04', '3', 'Alice'], ['boxe', '2021-10-09', '5', 'Alice'], ['karate', '2021-10-10', '20', 'Damien'], ['boxe', '2021-10-16', '6', 'Carole'], ['echecs', '2021-09-17', '120', 'Bob'], ['echecs', '2021-09-24', '120', 'Bob'], ['echecs', '2021-10-01', '120', 'Carole']]
@@ -130,3 +131,47 @@ def dictionnaire_somme(lis: List[List[str]], clef: str, valeur: str) -> Dict[str
     return res
 
 assert dictionnaire_somme(lignes_ex1 , "sport", "participants")  == {'boxe': 41, 'karate': 59, 'tennis': 3, 'echecs': 360}
+
+# Suggestion 2
+
+def diff_mois(ori: int, month: int) -> int:
+    """Préconditions ori <= 12 and month <= 12
+    Retourne la différebce entre deux mois"""
+    if month >= ori:
+        return month - ori
+    elif ori == 12:
+        return (ori + month) % 12
+    else:
+        return ((ori + month) // 3)
+
+def date_to_day(ori: str, date: str) -> int:
+    """Précondtions, date a le format yyyy-mm-dd, date doit être plus lointain que ori
+    Retourne le nombre de jour qui sépare ori de date"""
+    # Initialisation des données
+    # Listes des jours dans le mois
+    month_to_day: List[int] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    # Origine
+    ldate_ori: List[str] = decompose_ligne(ori, '-')
+    year_ori: int = int(ldate_ori[0])
+    month_ori: int = int(ldate_ori[1])
+    day_ori: int = int(ldate_ori[2])
+    # Date 
+    ldate: List[str] = decompose_ligne(date, '-')
+    year: int = int(ldate[0])
+    month: int = int(ldate[1])
+    day: int = int(ldate[2])
+
+
+    # Différence des deux dates
+    year = year-year_ori
+    diff_month: int = diff_mois(month_ori, month)
+
+    if diff_month == 0:
+        # On se trouve dans le même mois
+        day = day - day_ori
+
+    else:
+        for i in range(diff_month):
+            index: int = ((month_ori + i)%12) - 1
+    
+    return 1
