@@ -74,6 +74,8 @@ def chiffre_fichier_cesar(nom : str, n: int) -> None :
             for ligne in source.readlines() :
                 destination.write(ligne_chiffre_cesar(ligne, n))
 
+chiffre_fichier_cesar("C:/Users/wilhe/Desktop/Sorbonne Workspace/PPTI-Retrieved/Activité-4/albatros", 3)
+
 def dechiffre_fichier_cesar(nom : str, n: int) -> None :
     """ Precondition : <nom>.txt est un fichier existant
     déchiffre le contenu du fichier <nom>.txt avec un code césar de clé n dans <nom>-dechiffre.txt """

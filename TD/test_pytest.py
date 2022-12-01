@@ -2,6 +2,7 @@ import TD5 as a
 import TD6 as b
 import TD7 as c
 import TD8 as d
+from TD9 import *
 from typing import List, Tuple
 
 Etudiant = Tuple[str, str, int, List[int]]
@@ -172,3 +173,6 @@ def test_lettre_freq_max():
 def test_lettres_freq_inf():
     assert d.lettres_freq_inf(d.frequences_lettres('alea jacta est'), 1) == {'c', 'j', 'l', 's'}
     assert d.lettres_freq_inf(d.frequences_lettres("l'élève"), 2) == {'e', 'l', 'v', 'è', 'é'}
+
+def test_empruntables():
+    assert titres_empruntables(bd) == {'Le grand Meaulnes', 'Les misérables', 'Notre-dame de Paris', 'Un animal doué de raison'}
