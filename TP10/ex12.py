@@ -7,18 +7,16 @@ def tourner_sous_matrice(m: Matrice, x: int, y: int, k: int) -> None:
     cst: int = k//2
     colonne: int = y + k//2
     ligne: int = x
-    p: int = 0
     i: int
     for i in range(1, k+1):
         if i%3 == 0 and i!=0:
             # Tous les cycles sont terminés, on passe à la ligne suivante
-            p: int = p + 1
-            ligne = x + p
+            ligne = ligne + 1
             values = [m[ligne][n] for n in range(y, k//2+y)]
-        if i%2 == 0 and cst == k//2:
+        if i%2 == 0:
             # Le cycle part à gauche
             cst = - k//2
-        elif i%2 != 0 and cst == -k//2:
+        elif i%2 != 0:
             # Retour du cycle vers la droite
             cst = k//2
 
@@ -51,5 +49,7 @@ m1 : Matrice = [[ 1, 2, 3, 4, 0, 0, 0, 0],
                 [ 0, 0, 0, 0, 0, 0, 0, 0]]
 
 tourner_sous_matrice(m1, 0, 0, 4)
+tourner_sous_matrice(m0, 1, 1, 2)
 
 print(m1)
+print(m0)
