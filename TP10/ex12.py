@@ -5,14 +5,15 @@ def tourner_sous_matrice(m: Matrice, x: int, y: int, k: int) -> None:
     values: List[int] = [m[x][i] for i in range(y, k//2+y)] # Valeurs à déplacer au prochain tours de boucle
     temp: int # Variable temporaire de stockage
     cst: int = k//2
-    colonne: int = y + k//2
+    colonne: int = y + k//2 # Colonne à évaluer. On commence à évaluer la première colonne de la matrice suivante
+                            # Ceci est cohérent avec notre initialisation des valeurs à remplacer au départ
     ligne: int = x
     i: int
     for i in range(1, k+1):
         if i%3 == 0 and i!=0:
             # Tous les cycles sont terminés, on passe à la ligne suivante
             ligne = ligne + 1
-            values = [m[ligne][n] for n in range(y, k//2+y)]
+            values = [m[ligne][n] for n in range(y, k//2+y)] # Regénération des valeurs (qui vont être sautées)
         if i%2 == 0:
             # Le cycle part à gauche
             cst = - k//2
@@ -26,13 +27,13 @@ def tourner_sous_matrice(m: Matrice, x: int, y: int, k: int) -> None:
             temp: int = m[ligne][colonne+j]
             m[ligne][colonne+j] = values[j]
             values[j] = temp
-        ligne = ligne + cst
+        ligne = ligne + cst # Passage à la ligne suivante (vers bas puis haut)
         for j in range(len(values)):
             # Gestion des valeurs sur la même colonne
             temp: int = m[ligne][colonne+j]
             m[ligne][colonne+j] = values[j]
             values[j] = temp
-        colonne = colonne - cst
+        colonne = colonne - cst # Passage à la colonne suivante (vers gauche puis droite)
 
 m0: Matrice = [[0, 0, 0, 0],
                [0, 1, 2, 0],
