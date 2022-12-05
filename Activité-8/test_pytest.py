@@ -23,8 +23,8 @@ def test_d_5():
     assert cherche_indice("deces", ['sport', 'date', 'participants', 'vainqueur']) == None  
 
 def test_q_6():
-    assert dictionnaire_compte(lignes_ex1 , "vainqueur") == {'Alice': 4, 'Carole': 4, 'Bob': 3, 'Damien': 1} 
-    assert dictionnaire_compte(lignes_ex1 , "sport") == {'boxe': 5, 'karate': 3, 'tennis': 1, 'echecs': 3}
+    assert dictionnaire_compte(propres , "vainqueur") == {'Alice': 4, 'Carole': 4, 'Bob': 3, 'Damien': 1} 
+    assert dictionnaire_compte(propres , "sport") == {'boxe': 5, 'karate': 3, 'tennis': 1, 'echecs': 3}
 
 def test_q_7():
-    assert dictionnaire_somme(lignes_ex1 , "sport", "participants")  == {'boxe': 41, 'karate': 59, 'tennis': 3, 'echecs': 360}
+    assert dictionnaire_somme(propres , "sport", "participants")  == {'boxe': 41, 'karate': 59, 'tennis': 3, 'echecs': 360}
