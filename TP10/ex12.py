@@ -14,7 +14,6 @@ def tourner_sous_matrice(m: Matrice, x: int, y: int, k: int) -> None:
             # Tous les cycles sont terminés, on passe à la ligne suivante
             p: int = p + 1
             ligne = x + p
-            colonne = y + k//2
             values = [m[ligne][n] for n in range(y, k//2+y)]
         if i%2 == 0 and cst == k//2:
             # Le cycle part à gauche
