@@ -10,7 +10,7 @@ def tourner_sous_matrice(m: Matrice, x: int, y: int, k: int) -> None:
     ligne: int = x
     i: int
     for i in range(1, k+1):
-        if i%3 == 0 and i!=0:
+        if i%3 == 0:
             # Tous les cycles sont terminés, on passe à la ligne suivante
             ligne = ligne + 1
             values = [m[ligne][n] for n in range(y, k//2+y)] # Regénération des valeurs (qui vont être sautées)
