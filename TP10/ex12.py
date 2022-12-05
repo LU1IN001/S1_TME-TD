@@ -15,10 +15,10 @@ def tourner_sous_matrice(m: Matrice, x: int, y: int, k: int) -> None:
             ligne = ligne + 1
             values = [m[ligne][n] for n in range(y, k//2+y)] # Regénération des valeurs (qui vont être sautées)
         if i%2 == 0:
-            # Le cycle part à gauche
+            # Le cycle part à gauche puis ira vers le haut
             cst = - k//2
-        elif i%2 != 0:
-            # Retour du cycle vers la droite
+        else:
+            # Retour du cycle vers la droite, il ira ensuite vers le bas
             cst = k//2
 
         j: int
