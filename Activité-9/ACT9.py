@@ -1,6 +1,4 @@
 # Wilhem Blondel
-from typing import *
-T = TypeVar('T')
 
 def ouvre_fichier(nom: str) -> List[str]:
     """renvoie la liste des lignes du fichier texte ./nom.txt"""
@@ -52,12 +50,7 @@ assert minusculise("Bonjour") == "bonjour"
 
 def mots(lis: List[str], sep: Set[str]) -> List[str]:
     """Renvoie la liste de phrase en minuscule séparée par la ponctuation"""
-    tab: List[List[str]]  = [decompose_ligne(minusculise(c), sep) for c in lis]
-    res: List[str] = []
-    e: List[str]
-    for e in tab:
-        res = res + e
-    return res
+    return [minusculise(e) for line in lis for e in decompose_ligne(line, sep)]
 
 assert mots(exemple1, ponctuation)[:15] == ['je', 'suis', 'belle', 'ô', 'mortels', 'comme', 'un', 'rêve', 'de', 'pierre', 'et', 'mon', 'sein', 'où', 'chacun']
 
@@ -222,7 +215,7 @@ assert decalage_ligne(" bonjour lu1in011 ", 3) == " erqmrxu ox1lq011 "
 assert decalage_ligne(" bonjour lu1in011 ", 0) == " bonjour lu1in011 "
 
 
-def dictionnaire_freq_lettre(ms: List[str]):
+def dictionnaire_freq_lettre(ms: List[str]) -> Dict[str, float]:
     """Préconditions len(ms) > 0, ms est une liste de mot en minuscule
     Renvoie la fréquence d'apparitions des lettres contenue dans un texte"""
     nb_lettre_total: int = 0
@@ -258,34 +251,26 @@ def dictionnaire_freq_lettre(ms: List[str]):
 def decode_cesar_auto(nom: str, sep: Set[str], compare_with: Dict[str, float]) -> int:
     """Décode automatiquement le fichier donné chiffré en code césar
     La fonction renvoie la valeur de la clé utilisé pour le déchiffrage"""
-    print("let's initialyze basic elements...")
     fich: List[str]  = ouvre_fichier(nom)
     max_score: float = 0
     better_dec: int = 0
     decale1: List[str] = [decalage_ligne(minusculise(li), 0) for li in fich]
     d1: Dict[str, float] = dict()
     i: int
-    print("alrighty let's start !")
     for i in range(1, 27): # Nombre de lettre dans l'alphabet
-        print("executing for", i)
         decale1: List[str] = [decalage_ligne(minusculise(li), i) for li in fich]
         d1: Dict[str, float] =  dictionnaire_freq_lettre(mots(decale1, sep))
-        score1 = distance_freq(d1, compare_with)
+        score1: float = distance_freq(d1, compare_with)
         if max_score < score1:
             max_score = score1
             better_dec = i
-            print("better decryption found on", i, "score is now:", max_score)
     print(d1)
     with open("C:/Users/wilhe/Desktop/Sorbonne Workspace/PPTI-Retrieved/Activité-9/"+nom+"-decrypte.txt", "w", encoding= "utf-8") as f:
-        print("Resultats are in ! Best is", max_score, "for decrytiption by" ,better_dec, "decrypting...")
         for lines in fich:
             
             f.write(decalage_ligne(lines[:-2], better_dec) +"\n") # On retire le chariot à la fin puis on el rajoute après decryptage
 
     return better_dec
 
-
-print(decode_cesar_auto("albatros-chiffre", ponctuation, lettres_francais))
-    
 
 
