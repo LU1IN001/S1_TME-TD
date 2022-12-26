@@ -1,5 +1,8 @@
 # Wilhem Blondel & Beeverly Gourdette
 import random
+import sys
+sys.path.append('C:/Users/wilhe/OneDrive/Documents/Bureau/Sorbonne Workspace/MrPython/mrpython/studentlib/gfx')
+import image
 
 CaseT = str
 PlateauT = List[List[CaseT]]
